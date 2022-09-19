@@ -1,0 +1,31 @@
+PREFIX has_component: <http://purl.obolibrary.org/obo/RO_0002180>
+PREFIX protein_containing_complex: <http://purl.obolibrary.org/obo/GO_0032991>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX lego: <http://geneontology.org/lego/>
+
+SELECT DISTINCT ?crID ?name ?type  ?entity_from_set
+WHERE 
+{
+#	VALUES ?crID {
+#<http://purl.obolibrary.org/obo/go/extensions/reacto.owl#REACTO_R-HSA-1604598>
+#<http://purl.obolibrary.org/obo/go/extensions/reacto.owl#REACTO_R-HSA-1227951>
+#<http://purl.obolibrary.org/obo/go/extensions/reacto.owl#REACTO_R-HSA-1233230>
+#<http://purl.obolibrary.org/obo/go/extensions/reacto.owl#REACTO_R-HSA-1251953>
+#<http://purl.obolibrary.org/obo/go/extensions/reacto.owl#REACTO_R-HSA-1251957>
+#<http://purl.obolibrary.org/obo/go/extensions/reacto.owl#REACTO_R-HSA-1250351>
+#<http://purl.obolibrary.org/obo/go/extensions/reacto.owl#REACTO_R-HSA-1233236>
+#		}
+	?crID rdfs:comment ?type .
+	?crID rdfs:label ?name .
+	#?crID lego:canonical_record ?record .
+	?crID owl:equivalentClass ?set .
+	?set owl:unionOf ?collection.
+	?collection rdf:rest*/rdf:first ?entity_from_set .
+	#FILTER NOT EXISTS { ?crID owl:equivalentClass ?set . }
+		
+	
+
+
+}

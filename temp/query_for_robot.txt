@@ -1,0 +1,48 @@
+PREFIX has_component: <http://purl.obolibrary.org/obo/RO_0002180>
+PREFIX protein_containing_complex: <http://purl.obolibrary.org/obo/GO_0032991>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX lego: <http://geneontology.org/lego/>
+
+SELECT DISTINCT ?crID ?name ?record ?type ?component ?complex_from_set ?record_
+WHERE 
+{
+	VALUES ?crID {
+<http://purl.obolibrary.org/obo/go/extensions/reacto.owl#REACTO_R-HSA-1604598>
+<http://purl.obolibrary.org/obo/go/extensions/reacto.owl#REACTO_R-HSA-1227951>
+<http://purl.obolibrary.org/obo/go/extensions/reacto.owl#REACTO_R-HSA-1233230>
+<http://purl.obolibrary.org/obo/go/extensions/reacto.owl#REACTO_R-HSA-1251953>
+<http://purl.obolibrary.org/obo/go/extensions/reacto.owl#REACTO_R-HSA-1251957>
+<http://purl.obolibrary.org/obo/go/extensions/reacto.owl#REACTO_R-HSA-1250351>
+		}
+	?crID rdfs:comment ?type .
+	?crID rdfs:label ?name .
+	?crID lego:canonical_record ?record .
+	
+	OPTIONAL {
+		#get components
+		?crID rdfs:subClassOf ?restriction .
+		?restriction owl:onProperty has_component: .
+		?restriction owl:onClass ?component .
+		
+	}
+	
+	OPTIONAL {
+		#set of complexes or Physical Entity
+		#FILTER {?type = 'BioPAX type: interface org.biopax.paxtools.model.level3.Complex' || ?type = 'BioPAX type: interface org.biopax.paxtools.model.level3.PhysicalEntity}' 
+		#?crID rdfs:comment 'BioPAX type: interface org.biopax.paxtools.model.level3.Complex' .
+		?crID owl:equivalentClass ?set .
+		?set owl:unionOf ?collection.
+		?collection rdf:rest*/rdf:first ?complex_from_set .
+		#get components
+		?complex_from_set rdfs:subClassOf ?restriction_ .
+		?restriction_ owl:onProperty has_component: .
+		?restriction_ owl:onClass ?component_ .
+		?component_ rdfs:comment 'BioPAX type: interface org.biopax.paxtools.model.level3.Protein' .
+		?component_ lego:canonical_record ?record_ .
+	}
+	
+
+
+}
