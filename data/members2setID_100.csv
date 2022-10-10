@@ -1,0 +1,155 @@
+http://identifiers.org/uniprot/P16885,"sset:p-PLC gamma1,2",sset:PLCdegh
+http://identifiers.org/uniprot/P19174,"sset:p-PLC gamma1,2",sset:PLCdegh
+http://identifiers.org/uniprot/Q9BW60,"sset:ELOVL1,2,3,5"
+http://identifiers.org/uniprot/Q9HB03,"sset:ELOVL1,2,3,5"
+http://identifiers.org/uniprot/Q9NXB9,"sset:ELOVL1,2,3,5"
+http://identifiers.org/uniprot/Q9NYP7,"sset:ELOVL1,2,3,5"
+http://identifiers.org/uniprot/P13674,sset:Prolyl 4-hydroxylase alpha subunits
+http://identifiers.org/uniprot/Q7Z4N8,sset:Prolyl 4-hydroxylase alpha subunits
+http://identifiers.org/uniprot/O15460,sset:Prolyl 4-hydroxylase alpha subunits
+http://identifiers.org/uniprot/P46527,"sset:p21,p27"
+http://identifiers.org/uniprot/P38936,"sset:p21,p27"
+http://identifiers.org/uniprot/Q02297-10,sset:NRG1
+http://identifiers.org/uniprot/Q02297,sset:NRG1,sset:NRG1/2/3/4
+sset:NRG1,sset:NRG1/2
+http://identifiers.org/uniprot/O14511,sset:NRG1/2,sset:NRG1/2/3/4
+http://identifiers.org/uniprot/P56975,sset:NRG1/2/3/4
+http://identifiers.org/uniprot/Q8WWG1,sset:NRG1/2/3/4
+http://identifiers.org/uniprot/Q99075,sset:EGF-like ligands
+http://identifiers.org/uniprot/O14944,sset:EGF-like ligands
+http://identifiers.org/uniprot/P35070,sset:EGF-like ligands
+sset:NRG1/2/3/4,sset:NRGs/EGF-like ligands
+sset:EGF-like ligands,sset:NRGs/EGF-like ligands
+http://identifiers.org/uniprot/Q15303-1,sset:HER4 CYT-1 isoforms
+http://identifiers.org/uniprot/Q15303-2,sset:HER4 CYT-1 isoforms
+http://identifiers.org/uniprot/Q15303-3,sset:NRGs/EGFLs:ERBB4:p-Y877-ERBB2
+sset:HER4 CYT-1 isoforms,sset:NRGs/EGFLs:ERBB4:p-Y877-ERBB2
+http://identifiers.org/uniprot/P21860-1,sset:p-Y877-ERBB2 heterodimers
+sset:NRG1/2,sset:p-Y877-ERBB2 heterodimers
+sset:NRGs/EGF-like ligands,sset:p-Y877-ERBB2 heterodimers
+sset:NRGs/EGFLs:ERBB4:p-Y877-ERBB2,sset:p-Y877-ERBB2 heterodimers
+http://identifiers.org/uniprot/P00533,sset:p-Y877-ERBB2 heterodimers
+http://identifiers.org/uniprot/P01133,sset:p-Y877-ERBB2 heterodimers
+http://identifiers.org/uniprot/P67775,sset:PP2A-catalytic subunit C
+http://identifiers.org/uniprot/P62714,sset:PP2A-catalytic subunit C
+http://identifiers.org/uniprot/Q15173,sset:PP2A regulatory subunit B56,"sset:PPP2R5B,PPP2R5C"
+http://identifiers.org/uniprot/Q16537,sset:PP2A regulatory subunit B56
+http://identifiers.org/uniprot/Q13362,sset:PP2A regulatory subunit B56,"sset:PPP2R5B,PPP2R5C"
+http://identifiers.org/uniprot/Q15172,sset:PP2A regulatory subunit B56
+http://identifiers.org/uniprot/Q14738,sset:PP2A regulatory subunit B56
+http://identifiers.org/uniprot/P30154,sset:PP2A-subunit A
+http://identifiers.org/uniprot/P30153,sset:PP2A-subunit A
+http://identifiers.org/uniprot/Q96QI5,sset:HS3STs
+http://identifiers.org/uniprot/Q9Y662,sset:HS3STs
+http://identifiers.org/uniprot/Q9Y661,sset:HS3STs
+http://identifiers.org/uniprot/Q9Y278,sset:HS3STs
+http://identifiers.org/uniprot/Q8IZT8,sset:HS3STs
+http://identifiers.org/uniprot/Q9Y663,sset:HS3STs
+http://identifiers.org/uniprot/P36639-4,sset:NUDT1
+http://identifiers.org/uniprot/P36639-1,sset:NUDT1
+http://identifiers.org/uniprot/P36639-2,sset:NUDT1
+http://identifiers.org/uniprot/P36639-3,sset:NUDT1
+http://identifiers.org/uniprot/Q8NCG7,sset:Diacylglycerol lipase
+http://identifiers.org/uniprot/Q9Y4D2,sset:Diacylglycerol lipase
+http://identifiers.org/uniprot/P12931-1,sset:Src family tyrosine kinases (SFKs)
+http://identifiers.org/uniprot/P06241,sset:Src family tyrosine kinases (SFKs)
+http://identifiers.org/uniprot/P07948,sset:Src family tyrosine kinases (SFKs)
+http://identifiers.org/uniprot/P07947,sset:Src family tyrosine kinases (SFKs)
+http://identifiers.org/uniprot/P06239,sset:Src family tyrosine kinases (SFKs)
+http://identifiers.org/uniprot/Q13572,sset:INPP5(3)/ITPK1
+http://identifiers.org/uniprot/Q15735,sset:INPP5(3)/ITPK1
+http://identifiers.org/uniprot/Q92835,sset:INPP5(3)/ITPK1
+http://identifiers.org/uniprot/O15357,sset:INPP5(3)/ITPK1
+http://identifiers.org/uniprot/O43426,sset:INPP5(3)/ITPK1
+http://identifiers.org/uniprot/Q01968,sset:INPP5(3)/ITPK1,sset:Inositol polyphosphate 5-phosphatase
+http://identifiers.org/uniprot/Q9Y271,"sset:CYSLTR1,CYSLTR2"
+http://identifiers.org/uniprot/Q9NS75,"sset:CYSLTR1,CYSLTR2"
+http://identifiers.org/uniprot/P11487,sset:FGFR2b-binding FGFs
+http://identifiers.org/uniprot/P05230,sset:FGFR2b-binding FGFs
+http://identifiers.org/uniprot/O15520,sset:FGFR2b-binding FGFs
+http://identifiers.org/uniprot/Q9HCT0,sset:FGFR2b-binding FGFs
+http://identifiers.org/uniprot/P21781,sset:FGFR2b-binding FGFs
+http://identifiers.org/uniprot/P21802-3,sset:FGFR2b homodimer bound to FGF
+http://identifiers.org/uniprot/P21802-18,sset:FGFR2b homodimer bound to FGF
+http://identifiers.org/uniprot/P16050,sset:ALOX12/15
+http://identifiers.org/uniprot/P18054,sset:ALOX12/15
+http://identifiers.org/uniprot/Q8TB61,"sset:PAPST1,2"
+http://identifiers.org/uniprot/Q9H1N7,"sset:PAPST1,2"
+http://identifiers.org/uniprot/P50148,sset:G-protein alpha (q/11/14/15)
+http://identifiers.org/uniprot/O95837,sset:G-protein alpha (q/11/14/15)
+http://identifiers.org/uniprot/P30679,sset:G-protein alpha (q/11/14/15)
+http://identifiers.org/uniprot/P29992,sset:G-protein alpha (q/11/14/15)
+http://identifiers.org/uniprot/Q15147,sset:PLC-beta
+http://identifiers.org/uniprot/Q9NQ66,sset:PLC-beta
+http://identifiers.org/uniprot/Q01970,sset:PLC-beta
+http://identifiers.org/uniprot/Q00722,sset:PLC-beta
+http://identifiers.org/uniprot/Q96BI3,sset:APH-1
+http://identifiers.org/uniprot/Q8WW43,sset:APH-1
+http://identifiers.org/uniprot/P49810,sset:PSEN
+http://identifiers.org/uniprot/P49768,sset:PSEN
+http://identifiers.org/uniprot/Q6GPI1,"sset:PRSS1,3,CTRB1,2"
+http://identifiers.org/uniprot/P07477,"sset:PRSS1,3,CTRB1,2"
+http://identifiers.org/uniprot/P17538,"sset:PRSS1,3,CTRB1,2"
+http://identifiers.org/uniprot/P35030,"sset:PRSS1,3,CTRB1,2"
+http://identifiers.org/uniprot/Q684P5,sset:Rap1 GTPase-activating proteins
+http://identifiers.org/uniprot/P47736,sset:Rap1 GTPase-activating proteins
+http://identifiers.org/uniprot/Q96FS4,sset:Rap1 GTPase-activating proteins
+http://identifiers.org/uniprot/P35348,"sset:ADRA1A,B,D"
+http://identifiers.org/uniprot/P25100,"sset:ADRA1A,B,D"
+http://identifiers.org/uniprot/P35368,"sset:ADRA1A,B,D"
+"sset:ADRA1A,B,D",sset:Ligand:GPCR complexes that activate G12/13
+http://identifiers.org/uniprot/P21731,sset:Ligand:GPCR complexes that activate G12/13
+http://identifiers.org/uniprot/P63218,sset:G-protein gamma subunit
+http://identifiers.org/uniprot/P50151,sset:G-protein gamma subunit
+http://identifiers.org/uniprot/P63211,sset:G-protein gamma subunit
+http://identifiers.org/uniprot/O14610,sset:G-protein gamma subunit
+http://identifiers.org/uniprot/P50150,sset:G-protein gamma subunit
+http://identifiers.org/uniprot/Q9UK08,sset:G-protein gamma subunit
+http://identifiers.org/uniprot/P59768,sset:G-protein gamma subunit
+http://identifiers.org/uniprot/P61952,sset:G-protein gamma subunit
+http://identifiers.org/uniprot/O60262,sset:G-protein gamma subunit
+http://identifiers.org/uniprot/Q9P2W3,sset:G-protein gamma subunit
+http://identifiers.org/uniprot/P63215,sset:G-protein gamma subunit
+http://identifiers.org/uniprot/Q9UBI6,sset:G-protein gamma subunit
+http://identifiers.org/uniprot/P62873,sset:GNB
+http://identifiers.org/uniprot/P16520,sset:GNB
+http://identifiers.org/uniprot/O14775,sset:GNB
+http://identifiers.org/uniprot/P62879,sset:GNB
+http://identifiers.org/uniprot/Q9HAV0,sset:GNB
+http://identifiers.org/uniprot/Q14344,sset:G-protein G12/G13 (inactive)
+http://identifiers.org/uniprot/Q03113,sset:G-protein G12/G13 (inactive)
+http://identifiers.org/uniprot/Q96QF0,sset:RAB8 GEFs
+http://identifiers.org/uniprot/Q8TBN0,sset:RAB8 GEFs
+http://identifiers.org/uniprot/Q8IV53,sset:RAB8 GEFs
+http://identifiers.org/uniprot/O94925,sset:GLS dimers
+http://identifiers.org/uniprot/Q9UI32,sset:GLS dimers
+http://identifiers.org/uniprot/O15438,"sset:ABCC2, ABCC3"
+http://identifiers.org/uniprot/Q92887,"sset:ABCC2, ABCC3"
+http://identifiers.org/uniprot/Q13136,sset:Alpha-liprins
+http://identifiers.org/uniprot/O75145,sset:Alpha-liprins
+http://identifiers.org/uniprot/O75334,sset:Alpha-liprins
+http://identifiers.org/uniprot/O75335,sset:Alpha-liprins
+http://identifiers.org/uniprot/P32019,sset:Inositol polyphosphate 5-phosphatase
+http://identifiers.org/uniprot/P40145,sset:Adenylate cyclase
+http://identifiers.org/uniprot/P51828,sset:Adenylate cyclase
+http://identifiers.org/uniprot/Q08828,sset:Adenylate cyclase
+http://identifiers.org/uniprot/O95622,sset:Adenylate cyclase
+http://identifiers.org/uniprot/Q08462,sset:Adenylate cyclase
+http://identifiers.org/uniprot/O60266,sset:Adenylate cyclase
+http://identifiers.org/uniprot/O60503,sset:Adenylate cyclase
+http://identifiers.org/uniprot/O43306,sset:Adenylate cyclase
+http://identifiers.org/uniprot/Q8NFM4,sset:Adenylate cyclase
+http://identifiers.org/uniprot/Q5JWF2,sset:Gs
+http://identifiers.org/uniprot/P63092,sset:Gs
+http://identifiers.org/uniprot/P18887,"sset:LIG1,LIG3:XRCC1"
+http://identifiers.org/uniprot/P49916,"sset:LIG1,LIG3:XRCC1"
+http://identifiers.org/uniprot/P18858,"sset:LIG1,LIG3:XRCC1"
+http://identifiers.org/uniprot/Q4KWH8,sset:PLCdegh
+http://identifiers.org/uniprot/O75038,sset:PLCdegh
+http://identifiers.org/uniprot/Q9P212,sset:PLCdegh
+http://identifiers.org/uniprot/Q8N3E9,sset:PLCdegh
+http://identifiers.org/uniprot/P51178,sset:PLCdegh
+http://identifiers.org/uniprot/P68400,sset:CSNK2(A1:A1/A1:A2/A2:A2)
+http://identifiers.org/uniprot/P19784,sset:CSNK2(A1:A1/A1:A2/A2:A2)
+http://identifiers.org/uniprot/Q13107,"sset:USP4,USP25"
+http://identifiers.org/uniprot/Q9UHP3,"sset:USP4,USP25"

@@ -1,0 +1,48 @@
+"sset:p-PLC gamma1,2",http://identifiers.org/uniprot/P16885,http://identifiers.org/uniprot/P19174
+"sset:ELOVL1,2,3,5",http://identifiers.org/uniprot/Q9BW60,http://identifiers.org/uniprot/Q9HB03,http://identifiers.org/uniprot/Q9NXB9,http://identifiers.org/uniprot/Q9NYP7
+sset:Prolyl 4-hydroxylase alpha subunits,http://identifiers.org/uniprot/P13674,http://identifiers.org/uniprot/Q7Z4N8,http://identifiers.org/uniprot/O15460
+"sset:p21,p27",http://identifiers.org/uniprot/P46527,http://identifiers.org/uniprot/P38936
+sset:NRG1,http://identifiers.org/uniprot/Q02297-10,http://identifiers.org/uniprot/Q02297
+sset:NRG1/2,sset:NRG1,http://identifiers.org/uniprot/O14511
+sset:NRG1/2/3/4,http://identifiers.org/uniprot/P56975,http://identifiers.org/uniprot/Q8WWG1,http://identifiers.org/uniprot/O14511,http://identifiers.org/uniprot/Q02297
+sset:EGF-like ligands,http://identifiers.org/uniprot/Q99075,http://identifiers.org/uniprot/O14944,http://identifiers.org/uniprot/P35070
+sset:NRGs/EGF-like ligands,sset:NRG1/2/3/4,sset:EGF-like ligands
+sset:HER4 CYT-1 isoforms,http://identifiers.org/uniprot/Q15303-1,http://identifiers.org/uniprot/Q15303-2
+sset:NRGs/EGFLs:ERBB4:p-Y877-ERBB2,http://identifiers.org/uniprot/Q15303-3,sset:HER4 CYT-1 isoforms
+sset:p-Y877-ERBB2 heterodimers,http://identifiers.org/uniprot/P21860-1,sset:NRG1/2,sset:NRGs/EGF-like ligands,sset:NRGs/EGFLs:ERBB4:p-Y877-ERBB2,http://identifiers.org/uniprot/P00533,http://identifiers.org/uniprot/P01133
+sset:PP2A-catalytic subunit C,http://identifiers.org/uniprot/P67775,http://identifiers.org/uniprot/P62714
+sset:PP2A regulatory subunit B56,http://identifiers.org/uniprot/Q15173,http://identifiers.org/uniprot/Q16537,http://identifiers.org/uniprot/Q13362,http://identifiers.org/uniprot/Q15172,http://identifiers.org/uniprot/Q14738
+sset:PP2A-subunit A,http://identifiers.org/uniprot/P30154,http://identifiers.org/uniprot/P30153
+sset:HS3STs,http://identifiers.org/uniprot/Q96QI5,http://identifiers.org/uniprot/Q9Y662,http://identifiers.org/uniprot/Q9Y661,http://identifiers.org/uniprot/Q9Y278,http://identifiers.org/uniprot/Q8IZT8,http://identifiers.org/uniprot/Q9Y663
+sset:NUDT1,http://identifiers.org/uniprot/P36639-4,http://identifiers.org/uniprot/P36639-1,http://identifiers.org/uniprot/P36639-2,http://identifiers.org/uniprot/P36639-3
+sset:Diacylglycerol lipase,http://identifiers.org/uniprot/Q8NCG7,http://identifiers.org/uniprot/Q9Y4D2
+sset:Src family tyrosine kinases (SFKs),http://identifiers.org/uniprot/P12931-1,http://identifiers.org/uniprot/P06241,http://identifiers.org/uniprot/P07948,http://identifiers.org/uniprot/P07947,http://identifiers.org/uniprot/P06239
+"sset:PPP2R5B,PPP2R5C",http://identifiers.org/uniprot/Q13362,http://identifiers.org/uniprot/Q15173
+sset:INPP5(3)/ITPK1,http://identifiers.org/uniprot/Q13572,http://identifiers.org/uniprot/Q15735,http://identifiers.org/uniprot/Q92835,http://identifiers.org/uniprot/O15357,http://identifiers.org/uniprot/O43426,http://identifiers.org/uniprot/Q01968
+"sset:CYSLTR1,CYSLTR2",http://identifiers.org/uniprot/Q9Y271,http://identifiers.org/uniprot/Q9NS75
+sset:FGFR2b-binding FGFs,http://identifiers.org/uniprot/P11487,http://identifiers.org/uniprot/P05230,http://identifiers.org/uniprot/O15520,http://identifiers.org/uniprot/Q9HCT0,http://identifiers.org/uniprot/P21781
+sset:FGFR2b homodimer bound to FGF,http://identifiers.org/uniprot/P21802-3,http://identifiers.org/uniprot/P21802-18
+sset:ALOX12/15,http://identifiers.org/uniprot/P16050,http://identifiers.org/uniprot/P18054
+"sset:PAPST1,2",http://identifiers.org/uniprot/Q8TB61,http://identifiers.org/uniprot/Q9H1N7
+sset:G-protein alpha (q/11/14/15),http://identifiers.org/uniprot/P50148,http://identifiers.org/uniprot/O95837,http://identifiers.org/uniprot/P30679,http://identifiers.org/uniprot/P29992
+sset:PLC-beta,http://identifiers.org/uniprot/Q15147,http://identifiers.org/uniprot/Q9NQ66,http://identifiers.org/uniprot/Q01970,http://identifiers.org/uniprot/Q00722
+sset:APH-1,http://identifiers.org/uniprot/Q96BI3,http://identifiers.org/uniprot/Q8WW43
+sset:PSEN,http://identifiers.org/uniprot/P49810,http://identifiers.org/uniprot/P49768
+"sset:PRSS1,3,CTRB1,2",http://identifiers.org/uniprot/Q6GPI1,http://identifiers.org/uniprot/P07477,http://identifiers.org/uniprot/P17538,http://identifiers.org/uniprot/P35030
+sset:Rap1 GTPase-activating proteins,http://identifiers.org/uniprot/Q684P5,http://identifiers.org/uniprot/P47736,http://identifiers.org/uniprot/Q96FS4
+"sset:ADRA1A,B,D",http://identifiers.org/uniprot/P35348,http://identifiers.org/uniprot/P25100,http://identifiers.org/uniprot/P35368
+sset:Ligand:GPCR complexes that activate G12/13,"sset:ADRA1A,B,D",http://identifiers.org/uniprot/P21731
+sset:G-protein gamma subunit,http://identifiers.org/uniprot/P63218,http://identifiers.org/uniprot/P50151,http://identifiers.org/uniprot/P63211,http://identifiers.org/uniprot/O14610,http://identifiers.org/uniprot/P50150,http://identifiers.org/uniprot/Q9UK08,http://identifiers.org/uniprot/P59768,http://identifiers.org/uniprot/P61952,http://identifiers.org/uniprot/O60262,http://identifiers.org/uniprot/Q9P2W3,http://identifiers.org/uniprot/P63215,http://identifiers.org/uniprot/Q9UBI6
+sset:GNB,http://identifiers.org/uniprot/P62873,http://identifiers.org/uniprot/P16520,http://identifiers.org/uniprot/O14775,http://identifiers.org/uniprot/P62879,http://identifiers.org/uniprot/Q9HAV0
+sset:G-protein G12/G13 (inactive),http://identifiers.org/uniprot/Q14344,http://identifiers.org/uniprot/Q03113
+sset:RAB8 GEFs,http://identifiers.org/uniprot/Q96QF0,http://identifiers.org/uniprot/Q8TBN0,http://identifiers.org/uniprot/Q8IV53
+sset:GLS dimers,http://identifiers.org/uniprot/O94925,http://identifiers.org/uniprot/Q9UI32
+"sset:ABCC2, ABCC3",http://identifiers.org/uniprot/O15438,http://identifiers.org/uniprot/Q92887
+sset:Alpha-liprins,http://identifiers.org/uniprot/Q13136,http://identifiers.org/uniprot/O75145,http://identifiers.org/uniprot/O75334,http://identifiers.org/uniprot/O75335
+sset:Inositol polyphosphate 5-phosphatase,http://identifiers.org/uniprot/P32019,http://identifiers.org/uniprot/Q01968
+sset:Adenylate cyclase,http://identifiers.org/uniprot/P40145,http://identifiers.org/uniprot/P51828,http://identifiers.org/uniprot/Q08828,http://identifiers.org/uniprot/O95622,http://identifiers.org/uniprot/Q08462,http://identifiers.org/uniprot/O60266,http://identifiers.org/uniprot/O60503,http://identifiers.org/uniprot/O43306,http://identifiers.org/uniprot/Q8NFM4
+sset:Gs,http://identifiers.org/uniprot/Q5JWF2,http://identifiers.org/uniprot/P63092
+"sset:LIG1,LIG3:XRCC1",http://identifiers.org/uniprot/P18887,http://identifiers.org/uniprot/P49916,http://identifiers.org/uniprot/P18858
+sset:PLCdegh,http://identifiers.org/uniprot/P16885,http://identifiers.org/uniprot/P19174,http://identifiers.org/uniprot/Q4KWH8,http://identifiers.org/uniprot/O75038,http://identifiers.org/uniprot/Q9P212,http://identifiers.org/uniprot/Q8N3E9,http://identifiers.org/uniprot/P51178
+sset:CSNK2(A1:A1/A1:A2/A2:A2),http://identifiers.org/uniprot/P68400,http://identifiers.org/uniprot/P19784
+"sset:USP4,USP25",http://identifiers.org/uniprot/Q13107,http://identifiers.org/uniprot/Q9UHP3

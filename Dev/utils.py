@@ -62,7 +62,7 @@ def convert_IDs(genes, input_type):
     table['UniProtKB ID'] = table['UniProtKB ID'].apply(lambda x: x.split(' | '))
     d= pd.Series(table['UniProtKB ID'].values,index=table[input_type]).to_dict()
     genes['uniprot']=genes['g'].apply(lambda x: d.get(x))
-    t = genes[genes.uniprot.isna()]
+    t = genes[genes.uniprot.isna()].copy()
     t['uniprot'] = t.g.apply(lambda x: match_syn(x,table))
     not_converted = t[t.uniprot.isna()]
     genes = genes.dropna()
