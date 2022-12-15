@@ -5,6 +5,7 @@ import scipy.stats
 from scipy.stats import hypergeom
 import sys
 sys.path.append('../GOCAM_Project/dev')
+import os
 
 import utils
 pd.options.display.max_colwidth = 100
@@ -116,7 +117,41 @@ def enrich(gene_list, uni_list,uniprot2input,gocam_sizes, Dict, show_significant
     df_display = correct_pval_and_format(enriched_gocams, background_num_gocams,show_significant,alpha)
     return filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display
     
-            
+def enrich_wrapper(filename, id_type, return_all = False, method = 'set', show_significant=True,alpha=.05):
+    #set method files
+    gcs = '../data/gocam_sizes_mouse.csv'
+    id2g = '../data/ID2gocam_mouse.csv'
+    
+    #standard method files
+    if method == 'standard':
+        gcs = '../data/gocam_sizes_mouse_ff.csv'
+        id2g = '../data/ID2gocam_mouse_ff.csv'
+    
+    gene_list = pd.read_csv(os.path.join('../../Desktop/GOCAM',filename),header=None,names = ['g'])
+    gene_list_converted = []
+    uniprot2input = {}
+    not_converted = []
+    
+    #conversion to uniprot IDs not needed for a list of uniprot IDs
+    if id_type == 'uniprot':
+        gene_list_converted = gene_list.g
+        uniprot2input = pd.Series(gene_list_converted.values,index=gene_list_converted).to_dict()
+    else:
+        gene_list_converted, uniprot2input, not_converted = utils.convert_IDs(gene_list,id_type)
+    
+    #read in dictionary and the gocam sizes
+    x = pd.read_csv(gcs)
+    gocam_sizes = pd.Series(x.sizes.values,index=x.gocam)
+    Dict = utils.csv2dict(id2g)
+    
+    #call enrich()
+    filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display= enrich(list(gene_list.g), gene_list_converted, uniprot2input, gocam_sizes, Dict, show_significant = show_significant, alpha=alpha)
+    
+    if return_all:
+        return gene_list, filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display
+    else:
+        return df_display
+
         
         
         
