@@ -1,0 +1,5 @@
+Notes:
+
+in enrich.py, I set the pvalue automatically to 1 and avoid a call to ncHGT.do_ncHGT because 1 gene won't be significant and I want to avoid wasted computation time from BiasedUrn
+
+in enrich.py, the value for M (the background size) is equal to the total # of genes (the sum of the weights of all entities would double count genes that occur in multiple sets)... is this the right thing to do though?

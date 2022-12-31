@@ -8,6 +8,7 @@ sys.path.append('../GOCAM_Project/dev')
 import os
 
 import utils
+import ncHGT as noncentralHGT
 pd.options.display.max_colwidth = 100
 
 def get_sizes (data): #data= dataframe with gocam IDs and gene identifiers as columns
@@ -56,13 +57,21 @@ def count_genes(gene_list, Dict):
                     gocam_counts[gocam] = prev
     return gocam_counts
 
-# APPLY BENJAMINI HOCHBERG CORRECTION in correct_pval_and_format()
-def hgt(counts, gocam_sizes, alpha, gene_list_size, background_gene_list_size):
+#BENJAMINI HOCHBERG CORRECTION applied in correct_pval_and_format()
+#ncHGT is either False (indicating that regular HGT should be done) or a positive integer denoting N for ncHGT
+def hgt(counts, gocam_sizes, alpha, gene_list_size, background_gene_list_size, ncHGT = False):
     results = []
     for gocam, gene_list in counts.items():
         count = len(gene_list) 
         gocam_size = gocam_sizes[gocam]
-        pvalue = hypergeom.sf(count-1, background_gene_list_size,  gocam_size, gene_list_size) 
+        pvalue = None
+        if ncHGT:
+            if count <=1: #avoid unnecessary calls to BiasedUrn due to computation time
+                pvalue = 1
+            else:
+                pvalue = noncentralHGT.do_ncHGT(count -1,gocam,background_gene_list_size,ncHGT)
+        else: #set or standard methods
+            pvalue = hypergeom.sf(count-1, background_gene_list_size,  gocam_size, gene_list_size) 
         if pvalue < 1: #alpha:
             r = (gocam, pvalue, count, gocam_size, gene_list )
             results.append(r)
@@ -92,10 +101,16 @@ def correct_pval_and_format(enriched_gocams, background_num_gocams,show_signific
     df_display = df_display[cols]
     return df_display
 
-#as of now, Dict can only contain 1 instance of each gene per gocam (no duplicates)
+#Dict can only contain 1 instance of each gene per gocam (no duplicates)
 #show_significant only affects the multiple testing correction. If the uncorrected pval > alpha, hgt() will already remove it
-def enrich(gene_list, uni_list,uniprot2input,gocam_sizes, Dict, show_significant=True,alpha=.05):
+def enrich(gene_list, uni_list,uniprot2input,gocam_sizes, Dict, ncHGT=False, show_significant=True,alpha=.05):
     background_gene_list_size = len(Dict)
+    if ncHGT: 
+    #we consider the background size to be equal to the total # of genes 
+    #(the sum of the weights of all entities would double count genes that occur in multiple sets
+    #... is this the right thing to do though?
+        background_gene_list_size = len(utils.csv2dict('../data/ID2gocam_mouse_ff.csv'))
+        
     not_in_a_set, sets, setID2members_input_uni = get_sets(uni_list)
     
     setID2members_input = utils.map_dict_vals(uniprot2input, setID2members_input_uni)
@@ -112,7 +127,14 @@ def enrich(gene_list, uni_list,uniprot2input,gocam_sizes, Dict, show_significant
     filtered_out_genes = set(gene_list) - filtered_list_as_genes
     
     counts = count_genes(filtered_list, Dict)
-    enriched_gocams = hgt(counts, gocam_sizes, alpha, gene_list_size, background_gene_list_size)
+    
+    N_ncHGT = False
+    if ncHGT == True:
+        N_ncHGT = len(gene_list)-len(filtered_out_genes)
+        if N_ncHGT <= 0:
+            return "error no genes found in gocams"
+        
+    enriched_gocams = hgt(counts, gocam_sizes, alpha, gene_list_size, background_gene_list_size, ncHGT=N_ncHGT)
     background_num_gocams = len(gocam_sizes)
     df_display = correct_pval_and_format(enriched_gocams, background_num_gocams,show_significant,alpha)
     return filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display
@@ -145,12 +167,16 @@ def enrich_wrapper(filename, id_type, return_all = False, method = 'set', show_s
     Dict = utils.csv2dict(id2g)
     
     #call enrich()
-    filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display= enrich(list(gene_list.g), gene_list_converted, uniprot2input, gocam_sizes, Dict, show_significant = show_significant, alpha=alpha)
+    ncHGT = False
+    if method == 'ncHGT':
+        ncHGT = True
+    #results: (filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display)
+    results = enrich(list(gene_list.g), gene_list_converted, uniprot2input, gocam_sizes, Dict, ncHGT = ncHGT, show_significant = show_significant, alpha=alpha)
     
     if return_all:
-        return gene_list, filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display
+        return (gene_list, *results)
     else:
-        return df_display
+        return results[4]
 
         
         
