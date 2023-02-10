@@ -52,11 +52,28 @@ def match_syn(x,table):
         return u[0]
     else:
         return None
+    
+def split_mouse_MGI(x):
+    if ':' in x:
+        return 'MGI:'+ x.split(':')[1]
+    else:
+        return 'N.A.'
+    
+def split_mouse_symbol(x):
+    if ':' in x:
+        return x.split(':')[2]
+    else:
+        return 'N.A.'
+    
 def convert_IDs(genes, input_type):
     genes.g = genes.g.str.upper()
         
     file = '../data/simplemine_results.txt' #default is human, mouse is an option, other species not supported
     table = pd.read_csv(file,sep='\t', header=3)
+    
+    table['MGI'] = table['Mouse Ortholog'].apply(lambda x: split_mouse_MGI(x))
+    table['Mouse Symbol'] = table['Mouse Ortholog'].apply(lambda x: split_mouse_symbol(x))
+    
     table['Synonym'] = table['Synonym'].apply(lambda x: x.split(' | '))
     table['UniProtKB ID'] = table['UniProtKB ID'].apply(lambda x: x.split(' | '))
     d= pd.Series(table['UniProtKB ID'].values,index=table[input_type]).to_dict()
