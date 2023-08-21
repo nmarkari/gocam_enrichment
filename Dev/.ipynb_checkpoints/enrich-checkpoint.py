@@ -5,6 +5,7 @@ from scipy.stats import hypergeom
 import sys
 sys.path.append('../GOCAM_Project/dev')
 import os
+import tqdm
 
 import utils
 import ncHGT as noncentralHGT
@@ -59,8 +60,10 @@ def count_genes(gene_list, Dict):
 #BENJAMINI HOCHBERG CORRECTION applied in correct_pval_and_format()
 #ncHGT is either False (indicating that regular HGT should be done) or a positive integer denoting N for ncHGT
 def hgt(counts, gocam_sizes, alpha, gene_list_size, background_gene_list_size, ncHGT = False):
+    """ ncHGT is either False (for set or standard methods) or corresponds to N """
     results = []
-    for gocam, gene_list in counts.items():
+    iterator = tqdm.tqdm(counts.items())
+    for gocam, gene_list in iterator:
         count = len(gene_list) 
         gocam_size = gocam_sizes[gocam]
         pvalue = None
@@ -78,7 +81,7 @@ def hgt(counts, gocam_sizes, alpha, gene_list_size, background_gene_list_size, n
 
 #Benjamini Hochberg correction
 def correct_pval_and_format(enriched_gocams, background_num_gocams,show_significant,alpha):
-    df = pd.DataFrame(enriched_gocams, columns =['url', 'pval (uncorrected)', '# genes in list','#genes in gocam','shared gene products in gocam'])
+    df = pd.DataFrame(enriched_gocams, columns =['url', 'pval (uncorrected)', '# entities in list','#entities in model','shared entities in gocam'])
     df.sort_values('pval (uncorrected)',inplace=True)
     df.reset_index(drop=True, inplace=True)
     df['FDR_val'] = (df.index+1)*alpha/background_num_gocams
@@ -88,8 +91,8 @@ def correct_pval_and_format(enriched_gocams, background_num_gocams,show_signific
     if (show_significant):
         df_significant = df.loc[0:index].copy()
         if index == None:
-            df_significant = pd.DataFrame(columns =['url', 'pval (uncorrected)', '# genes in list','#genes in gocam','shared gene products in gocam'])
-    df_display = df_significant[['url','pval (uncorrected)', '# genes in list', '#genes in gocam','shared gene products in gocam']].copy()
+            df_significant = pd.DataFrame(columns =['url', 'pval (uncorrected)', '# entities in list','#entities in model','shared entities in gocam'])
+    df_display = df_significant[['url','pval (uncorrected)', '# entities in list', '#entities in model','shared entities in gocam']].copy()
     #modelID2title = pd.read_csv('../data/modelID2title_mouse.csv')
     temp = pd.read_csv('../data/modelID2title_mouse.csv',header = 0,names=['gocam','title'])
     modelID2title = pd.Series(temp.title.values,index=temp.gocam).to_dict()
@@ -138,7 +141,8 @@ def enrich(gene_list, uni_list,uniprot2input,gocam_sizes, Dict, ncHGT=False, sho
     df_display = correct_pval_and_format(enriched_gocams, background_num_gocams,show_significant,alpha)
     return filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display
     
-def enrich_wrapper(filename, id_type, return_all = False, method = 'set', show_significant=True,alpha=.05):
+def enrich_wrapper(filename, id_type, return_all = False, method = 'set', show_significant=True,alpha=.05,fpath= '../test_data', display_gene_symbol = True):
+    """ returns (gene_list, filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display)"""
     #set method files
     gcs = '../data/gocam_sizes_mouse.csv'
     id2g = '../data/ID2gocam_mouse.csv'
@@ -148,7 +152,11 @@ def enrich_wrapper(filename, id_type, return_all = False, method = 'set', show_s
         gcs = '../data/gocam_sizes_mouse_ff.csv'
         id2g = '../data/ID2gocam_mouse_ff.csv'
     
-    gene_list = pd.read_csv(os.path.join('../../Desktop/GOCAM',filename),header=None,names = ['g'])
+    gene_list = pd.read_csv(os.path.join(fpath,filename),header=None,names = ['g'])
+    
+    #normally not needed, but I found a bug where HSPA1A and HSPA1B are listed as synonyms, both in Simplemine and official sources like the Alliance
+    gene_list.drop_duplicates(inplace = True) 
+    
     gene_list_converted = []
     uniprot2input = {}
     not_converted = []
@@ -172,12 +180,41 @@ def enrich_wrapper(filename, id_type, return_all = False, method = 'set', show_s
     #results: (filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display)
     results = enrich(list(gene_list.g), gene_list_converted, uniprot2input, gocam_sizes, Dict, ncHGT = ncHGT, show_significant = show_significant, alpha=alpha)
     
+    if display_gene_symbol == True:
+        results[4]['shared entities in gocam'] = utils.uniprot2gene(results[4]['shared entities in gocam'])
+    if method == 'set' or method == 'ncHGT':
+        print(f"Analysis run on {len(results[1])} entities from {len(gene_list)-len(results[0])} out of {len(gene_list)} input genes")
     if return_all:
         return (gene_list, *results)
     else:
         return results[4]
 
         
+def compare2standard(d1, filename , symbol, alpha=.05,fpath = '../test_data/processed'):
+    
+    d2= enrich_wrapper(filename,symbol,method='standard',alpha = alpha,fpath = fpath)
+
+
+    r1 = set(d1.title.values)
+    r2 = set(d2.title.values)
+
+    dif12 = set(r1)-set(r2)
+    dif21 = set(r2)-set(r1)
         
+    d2_all = enrich_wrapper(filename,symbol,method='standard',show_significant= False, alpha = alpha,fpath = fpath)
+    dif12 = list(dif12)
+    sizes = {}
+    for i in dif12:
+        s = d2_all[d2_all.title == i]["#entities in model"].values[0]
+        sizes[i] = s
+
+    df = d1[d1.title.apply(lambda x: x in dif12)].copy()
+    if len(df) > 0:
+        
+        df['gene list size'] = df.title.apply(lambda x: sizes.get(x))
+    
+    print(f"Standard method yields {len(r2)} results, {len(dif21)} of which are unique")
+    
+    return df
         
         

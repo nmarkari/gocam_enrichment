@@ -84,8 +84,23 @@ def convert_IDs(genes, input_type):
     genes = genes.dropna()
     genes = pd.concat([genes,t[t.uniprot.notna()]])
     temp = genes.explode('uniprot')
+    temp.drop_duplicates(subset='uniprot',inplace = True)
     uniprot2input = pd.Series(temp.g.values, index=temp.uniprot).to_dict()
     uniprot_list = list(temp.uniprot.values)
     return uniprot_list,uniprot2input,not_converted#list(itertools.chain.from_iterable(genes.uniprot.values)), not_converted
 
+def u2ghelper(x,d):
+    x_new = []
+    for u in x:
+        x_new.append(d.get(u,u))
+    return x_new
+
+def uniprot2gene(series):
+    file = '../data/simplemine_results.txt' #default is human, mouse is an option, other species not supported
+    table = pd.read_csv(file,sep='\t', header=3)
+    table['UniProtKB ID'] = table['UniProtKB ID'].apply(lambda x: x.split(' | '))
+    table = table.explode('UniProtKB ID')
+    d= pd.Series(table['Gene Symbol'].values,index=table['UniProtKB ID']).to_dict()
     
+    return series.apply(lambda x: u2ghelper(x,d))
+

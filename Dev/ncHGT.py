@@ -8,8 +8,9 @@ BiasedUrn = importr('BiasedUrn')
 
 import utils
 
+
 def get_M_wM():
-    #get mean set size
+    """ returns M, the number of entities in the background, and w_M, the mean size of entities in the background"""
     setID2members = utils.csv2dict('../data/setID2members.csv')
     l = []
     for s,m in setID2members.items():
@@ -24,7 +25,7 @@ def get_M_wM():
     bg = len(utils.csv2dict('../data/ID2gocam_mouse.csv'))
     M = bg-num_empty_sets
     
-    w_M = ((M-num_sets)+num_sets*mean)/M
+    w_M = np.round(((M-num_sets)+num_sets*mean)/M,decimals=2)
     return M, w_M
 
 def make_initial_vectors(gocam2ID,setID2members, gc, M,w_M):
@@ -52,19 +53,29 @@ def make_new_vectors(w_gc,m_gc,M,w_M):
 - w is the ordered set of unique weights for entities of the gocam + the background bin
 - m[i] is the number of entities in the pathway with the weight specified in w[i] + the background bin"""
     w_temp = w_gc[:-1]
+    if w_temp[0] != 1:
+        print('Possible bug: w_temp[0] != 1',w_temp)
+        
     w_new, m_temp = np.unique(w_temp, return_counts=True)
+    m_temp[0]=m_gc[0] #w_gc and m_gc have weight 1 as w_gc[0] and the number of single proteins as m_gc[0]
     m_new = np.append(m_temp,np.array([M-np.sum(m_temp)]))
     w_new = np.append(np.unique(w_temp),np.array([w_M]))
     return w_new, m_new
 
 
+
+
 def ncHGT_sf(XT,m,N,w):
     """survival function, sums PMF for all possibilities where K >= k by calling BiasedUrn"""
     #l = len(XT)/len(m)
+    if len(XT) == 0:
+        print('len(XT) = 0')
+        return -1
     pval = 0
+    #np.seterr(under='warn')
     for i in range(len(XT)):
         x = rpy2.robjects.IntVector(XT[i])
-        pval = pval + BiasedUrn.dMFNCHypergeo(x,m,N,w)[0]
+        pval = pval + BiasedUrn.dMFNCHypergeo(x,m,N,w, precision = 1e-10)[0]
     return pval
 
 
@@ -117,6 +128,8 @@ def do_ncHGT(k,gc,M,N):
     XT = np.concatenate((XT,x_mp1_vec.reshape(len(x_mp1_vec),1)), axis = 1)
 
     m = rpy2.robjects.IntVector(m_new)
-    w = rpy2.robjects.IntVector(w_new)
+    w = rpy2.robjects.FloatVector(w_new)
     pval = ncHGT_sf(XT,m,N,w)
     return pval
+
+
