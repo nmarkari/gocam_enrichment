@@ -73,6 +73,7 @@ def ncHGT_sf(XT,m,N,w):
         return -1
     pval = 0
     #np.seterr(under='warn')
+    ### This could be optimized by setting a threshold and stopping the for loop when the sum exceeds some threshold###
     for i in range(len(XT)):
         x = rpy2.robjects.IntVector(XT[i])
         pval = pval + BiasedUrn.dMFNCHypergeo(x,m,N,w, precision = 1e-10)[0]
