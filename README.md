@@ -1,6 +1,6 @@
 # gocam_enrichment
 
-This repository implements a step-centric enrichment analysis on Gene Ontology Causal Activity Models (GO-CAMs).
+Code in this repository implements a step-centric enrichment analysis on Gene Ontology Causal Activity Models (GO-CAMs).
 
 See **example.ipynb** under **notebooks**. We hope to integrate this tool soon into a Genome Alliance resource such that the backend database of GOCAM models can be maintained and updated. However, until then, users could follow example.ipynb to perform analyses with this tool.
 
