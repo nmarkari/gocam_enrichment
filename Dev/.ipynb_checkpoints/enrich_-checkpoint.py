@@ -212,7 +212,7 @@ def enrich_wrapper(filename, id_type, return_all = False, method = 'set', show_s
     
     #add caption
     if table_number != '' and compare== False:
-        df_display = add_caption(results[4],filename,method,FDR,table_number)
+        df_display = add_caption(results[4],filename,method,FDR,letter(table_number)) #convert to letters to conform to PLOS guideline for supplemental text
         results = (*results[:-1],df_display)
     
     if return_all:
@@ -220,6 +220,11 @@ def enrich_wrapper(filename, id_type, return_all = False, method = 'set', show_s
     else:
         return results[4]
     
+def letter(number):
+    first = chr(int((number-1)/26)+65)
+    second = chr((number-1)%26 +65)
+    return first+second
+
 def add_caption(df_display,name,method,FDR, number):
     name = name.replace('Goavere_S2','NAFLD')
     
