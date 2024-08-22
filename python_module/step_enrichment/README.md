@@ -27,8 +27,8 @@ enrich(filename, input_type, method = 'set', return_all = False, FDR=.05,fpath= 
 - -       if enriching with kegg, set kegg = True.
 - -       enrich against can be 'module' or 'pathways' for kegg
 -     return_all: 
-- -         if false, only returns the dataframe displaying results. 
-- -         return_all = if True, returns gene_list (genes + sets added), filtered_out_genes (from input), filtered_list (input data type), setID2members_input_uni (maps sets to backend data type), setID2members_input (maps sets to input data type), df_display
+- -         if False, only returns the dataframe displaying results. 
+- -         if True: gene_list (genes + sets added), filtered_out_genes (from input), filtered_list (from input), setID2members_input_uni (maps sets to backend data), setID2members_input (maps sets to input data), df_display
 -     FDR: false discovery rate (Benjamini Hochberg correction)
 -     display_gene_symbol: if true, display HGNC symbols on output regardless of input ID type
 -     display_input: overrides display_gene_symbol if true. If False, either displays the backend id type (UniProtKB IDs for REACTOME/GOCAMs, reactions for KEGG) or the default of HGNC gene names"""\
