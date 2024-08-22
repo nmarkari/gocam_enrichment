@@ -1,0 +1,191 @@
+import numpy as np
+import os
+from .utils import kegg_make_pathway_reaction, csv2dict, check_r_version
+
+##### CHECKS + IMPORTS/INSTALLATION FOR BIASED URN AND RPY2#####
+
+    
+check_r_version()
+
+import rpy2
+import rpy2.robjects.packages as rpackages
+from rpy2.robjects.vectors import StrVector
+
+
+# import R's utility package
+utils = rpackages.importr('utils')
+
+# select a mirror for R packages
+utils.chooseCRANmirror(ind=1) # select the first mirror in the list
+
+# R package names
+packnames = ('BiasedUrn',)
+
+# R vector of strings
+
+# Selectively install what needs to be install.
+names_to_install = [x for x in packnames if not rpackages.isinstalled(x)]
+if len(names_to_install) > 0:
+    utils.install_packages(StrVector(names_to_install))
+
+BiasedUrn = rpackages.importr('BiasedUrn')
+###################################################################
+
+
+def get_M_wM(setID2members, ID2pathway):
+    """ returns M, the number of entities in the background, and w_M, the mean size of entities in the background"""
+    
+    l = []
+    for s,m in setID2members.items():
+        l.append(len(m))
+    l = np.array(l)
+    l = np.sort(l)
+    num_empty_sets = np.sum(l==0)
+    
+    l = l[l!=0]
+    mean = np.mean(l)#l[4:-4]) 1% trimmed mean?
+    num_sets = len(l)
+    bg = len(ID2pathway)
+    M = bg-num_empty_sets
+    
+    w_M = np.round(((M-num_sets)+num_sets*mean)/M,decimals=2)
+    return M, w_M
+
+def make_initial_vectors(gocam2ID,setID2members, gc, M,w_M, kegg = False):
+    """initializes counts vector (m) and weights vector (w), where each entity gets its own element in the arrays
+- values in m only take on 0 (if there is no solo proteins) or 1
+- values in w correspond to the weight of each element in m (weighted by the # genes in a set or 1 for solo proteins)"""
+    w_gc = [1] #initialize with 1 as the weight of single proteins (irrespective of whether there are any)
+    m_gc = [0] #initialize with 0 single proteins
+    num_protein = 0
+    for i in gocam2ID.get(gc):
+        if "sset:" in i or kegg: #all reactions treated as sets in kegg
+            try:
+                w_i = len(setID2members[i])
+            except KeyError:
+                print(f'{i} not found in dictionary')
+                continue
+            if kegg and w_i == 1:
+                num_protein +=1
+                continue
+                
+            w_gc.append(w_i)
+            m_gc.append(1)
+        else:
+            num_protein+=1
+    m_gc[0] = num_protein
+    m_gc.append(M-np.sum(m_gc)) #entities not in the gocam (roughly)
+    w_gc.append(w_M) #weight for entities not in the gocam (all weighted as w_M (the mean))
+    return w_gc, m_gc
+
+
+def make_new_vectors(w_gc,m_gc,M,w_M):
+    """compress the m and w vectors by grouping elements according to their weights
+- w is the ordered set of unique weights for entities of the gocam + the background bin
+- m[i] is the number of entities in the pathway with the weight specified in w[i] + the background bin"""
+    w_temp = w_gc[:-1]
+    if w_temp[0] != 1:
+        print('Possible bug: w_temp[0] != 1',w_temp)
+        
+    w_new, m_temp = np.unique(w_temp, return_counts=True)
+    m_temp[0]=m_gc[0] #w_gc and m_gc have weight 1 as w_gc[0] and the number of single proteins as m_gc[0]
+    m_new = np.append(m_temp,np.array([M-np.sum(m_temp)]))
+    w_new = np.append(np.unique(w_temp),np.array([w_M]))
+    return w_new, m_new
+
+
+
+
+def ncHGT_sf(XT,m,N,w):
+    """survival function, sums PMF for all possibilities where K >= k by calling BiasedUrn"""
+    #l = len(XT)/len(m)
+    if len(XT) == 0:
+        print('len(XT) = 0')
+        return -1
+    pval = 0
+    #np.seterr(under='warn')
+    ### This could be optimized by setting a threshold and stopping the for loop when the sum exceeds some threshold###
+    for i in range(len(XT)):
+        x = rpy2.robjects.IntVector(XT[i])
+        pval = pval + BiasedUrn.dMFNCHypergeo(x,m,N,w, precision = 1e-10)[0]
+    return pval
+
+
+def enumerate_possibilities(m_new,i,prev_array):
+    """enumerate all possible counts vectors"""
+    first = True
+    for j in range(m_new[i]+1):
+        xt = prev_array.copy()
+        xt[0][i] = j
+        
+        #recursion
+        if (i < len(m_new)-1):
+            xt = enumerate_possibilities(m_new, i+1, xt) #will return matrix (array of arrays)
+            
+        #combining results into matrix
+        if not first:
+            XT = np.concatenate([XT,xt], axis = 0)
+        else:
+            XT = xt
+            first = False
+    return XT
+
+
+def do_ncHGT(k,gc,M,N, input_type = '', kegg = False, backend_type = '', enrich_against = None):
+    setID2members = '../data/setID2members.csv'
+    gocam2ID = '../data/gocam2ID_mouse.csv'
+    ID2gocam = '../data/ID2gocam_mouse.csv'
+    sep = ','
+    if kegg:
+        setID2members = f'../data/kegg/reaction-to-{input_type}.map'
+        gocam2ID = f'../data/kegg/{enrich_against}-to-reaction.map'
+        ID2gocam = f'../data/kegg/reaction-to-{enrich_against}.map'
+        sep = '\t'
+        if os.path.isfile(f'../data/kegg/{enrich_against}-to-{backend_type}.map') == False:
+            kegg_make_pathway_reaction(backend_type, enrich_against)
+             
+    setID2members = csv2dict(setID2members, sep = sep)
+    gocam2ID = csv2dict(gocam2ID, sep = sep)
+    ID2gocam = csv2dict(ID2gocam, sep = sep)
+    
+    M, w_M = get_M_wM(setID2members, ID2gocam)
+    
+    #make weight (w) and bin size (m) vectors where each entity in the gocam gets its own entry
+    w_in, m_in = make_initial_vectors(gocam2ID, setID2members, gc, M,w_M, kegg = kegg)
+
+    #update m and w vectors by grouping sets of the same size
+    w_new , m_new= make_new_vectors(w_in,m_in,M,w_M)
+
+    
+    #make XT matrix, an enumeration of all possible arangements of balls in bins based on m_new and w_new
+    m_gc = m_new[:-1] #don't pass the background bin to XT
+    XT = enumerate_possibilities(m_gc,0,np.zeros(shape=(1,len(m_gc))))
+    
+    complement = False
+    if kegg and k < 5: #initial testing was extremely slow with kegg
+        complement = True
+        #filter XT to only include the region of the sample space < k (complement of what we want to sum probabilities over)
+        mask1 = (np.sum(XT, axis=1) < k)
+        XT = XT[mask1]
+    else:
+        #filter XT to only include the region of the sample space >= k (which is what we want to sum probabilities over)
+        mask1 = (np.sum(XT, axis=1) >= k)
+        XT = XT[mask1]
+
+    #filter XT to ensure that more than N entities are not picked
+    mask2 = (np.sum(XT, axis=1) <= N)
+    XT = XT[mask2]
+
+    #add the remaining entities to the m+1th bin (non gocam bin)
+    x_mp1_vec = N- np.sum(XT, axis = 1) #number of balls to be drawn from the last bin (the non-gocam background)
+    XT = np.concatenate((XT,x_mp1_vec.reshape(len(x_mp1_vec),1)), axis = 1)
+    
+    m = rpy2.robjects.IntVector(m_new)
+    w = rpy2.robjects.FloatVector(w_new)
+    pval = ncHGT_sf(XT,m,N,w)
+    if complement:
+        pval = 1 - pval
+    return pval
+
+
+

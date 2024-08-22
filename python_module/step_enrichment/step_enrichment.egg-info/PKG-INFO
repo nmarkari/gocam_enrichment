@@ -1,0 +1,35 @@
+Metadata-Version: 2.1
+Name: step_enrichment
+Version: 0.1.0
+Summary: enrichment on steps in Gene Ontology Causal Activity Models
+Home-page: https://github.com/nmarkari/gocam_enrichment
+Author: Nicholas Markarian
+Author-email: nmarkari@usc.edu
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: rpy2
+Requires-Dist: scipy
+Requires-Dist: tqdm
+
+# Step Enrichment
+
+Markarian N, Van Auken KM, Ebert D, Sternberg PW (2024) Enrichment on steps, not genes, improves inference of differentially expressed pathways. PLOS Computational Biology 20(3): e1011968. https://doi.org/10.1371/journal.pcbi.1011968
+
+Associated notebooks can be found at https://github.com/nmarkari/gocam_enrichment
+
+**This package also requires installation of R. Download the R package BiasedUrn package: https://cran.r-project.org/web/packages/BiasedUrn/BiasedUrn.pdf. This code was tested with R version 4.2.2 and BiasedUrn_2.0.11.**
+
+Post-publication, we extended our code to work with Kegg data to aid other developers who wanted to use our tool, where kegg reactions are used analagously to "sets" from our paper. Bulk downloads from Kegg require a subscription, so we are not redistributing their data here. You may download it through KEGGs FTP site if you do not already have access to the data via https://www.kegg.jp/kegg/download/. To use our kegg enrichment function, please create a "data/kegg/" directory and include the following files:
+
+- ko-to-reaction.map
+- module_name.txt
+- pathway_name.txt
+- reaction-to-ko.map
+- reaction-to-module.map
+- reaction-to-pathway.map
+- reaction_enzyme.txt

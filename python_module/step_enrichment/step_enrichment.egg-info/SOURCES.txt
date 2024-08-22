@@ -1,0 +1,11 @@
+README.md
+setup.py
+step_enrichment/__init__.py
+step_enrichment/enrich.py
+step_enrichment/ncHGT.py
+step_enrichment/utils.py
+step_enrichment.egg-info/PKG-INFO
+step_enrichment.egg-info/SOURCES.txt
+step_enrichment.egg-info/dependency_links.txt
+step_enrichment.egg-info/requires.txt
+step_enrichment.egg-info/top_level.txt
