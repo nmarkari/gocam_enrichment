@@ -6,7 +6,7 @@ import os
 import os.path
 import tqdm
 
-from .utils import csv2dict, map_dict_vals, convert_IDs, reverse_dict, backend2gene
+from .utils import csv2dict, map_dict_vals, convert_IDs, reverse_dict, backend2gene, get_data_directory
 from .ncHGT import do_ncHGT 
 pd.options.display.max_colwidth = 100
 
@@ -14,9 +14,11 @@ pd.options.display.max_colwidth = 100
     
 def get_sets(gene_list):
     """map list of genes to all sets that contain members of that list"""
+    dpath = get_data_directory()
+
     sets = []
     not_in_a_set = []
-    members2setID = csv2dict('../data/members2setID.csv')
+    members2setID = csv2dict(os.path.join(dpath, 'members2setID.csv'))
     setID2members_input = {}
     for g in gene_list:
         s = members2setID.get(g)
@@ -68,6 +70,7 @@ def hgt(counts, gocam_sizes, FDR, gene_list_size, background_gene_list_size, ncH
     Whether our unweighted set enrichment or the standard HGT is performed is determined upstream based on what
     Dict of gocams->entities and filtered gene_list are passed into count_genes().
     ncHGT is either False (for set or standard methods) or corresponds to N """
+    
     results = []
     iterator = tqdm.tqdm(counts.items())
     for gocam, gene_list in iterator:
@@ -94,6 +97,8 @@ def hgt(counts, gocam_sizes, FDR, gene_list_size, background_gene_list_size, ncH
 #Benjamini Hochberg correction
 def correct_pval_and_format(enriched_gocams, background_num_gocams,FDR,kegg, enrich_against = None):
     """performs Benjamini Hochberg correction to control the false discovery rate and formats output for display"""
+    dpath = get_data_directory()
+
     df = pd.DataFrame(enriched_gocams, columns =['url', 'pval (uncorrected)', '# entities in list','#entities in model','shared entities in gocam'])
     df.sort_values('pval (uncorrected)',inplace=True)
     df.reset_index(drop=True, inplace=True)
@@ -108,9 +113,9 @@ def correct_pval_and_format(enriched_gocams, background_num_gocams,FDR,kegg, enr
     df_display = df_significant[['url','pval (uncorrected)', '# entities in list', '#entities in model','shared entities in gocam']].copy()
     #modelID2title = pd.read_csv('../data/modelID2title_mouse.csv')
     
-    temp = pd.read_csv('../data/modelID2title_mouse.csv',header = 0,names=['pathway','title'])
+    temp = pd.read_csv(os.path.join(dpath, 'modelID2title_mouse.csv'),header = 0,names=['pathway','title'])
     if kegg:
-        temp = pd.read_csv(f'../data/kegg/{enrich_against}_name.txt',header = None, sep = '\t', names=['pathway','title'])
+        temp = pd.read_csv(os.path.join(dpath,f'kegg/{enrich_against}_name.txt'),header = None, sep = '\t', names=['pathway','title'])
     modelID2title = pd.Series(temp.title.values,index=temp.pathway).to_dict()
     
     df_display['title'] = df_display['url'].map(modelID2title)
@@ -126,13 +131,15 @@ def _enrich(gene_list, uni_list,uniprot2input,pathway_sizes, Dict, ncHGT=False,F
     """uni_list is the list of uniprot IDs, because the backend dictionary, Dict, is gocam_id-> list(uniprot id's).
     uniprot2input is a dictionary keeping track of which of the user's inputs mapped to which uniprot id's so results can be 
     displayed in the user's inputted format, as the mapping is not always 1:1."""
+    
+    dpath = get_data_directory()
     background_gene_list_size = len(Dict)
     if kegg == False:
         if ncHGT: 
         #we consider the background size to be equal to the total # of genes 
         #(the sum of the weights of all entities would double count genes that occur in multiple sets
         #... is this the right thing to do though?
-            background_gene_list_size = len(csv2dict('../data/ID2gocam_mouse_ff.csv'))
+            background_gene_list_size = len(csv2dict(os.path.join(dpath,'ID2gocam_mouse_ff.csv')))
 
         not_in_a_set, sets, setID2members_input_uni = get_sets(uni_list)
 
@@ -164,7 +171,7 @@ def _enrich(gene_list, uni_list,uniprot2input,pathway_sizes, Dict, ncHGT=False,F
     
     else:
         if ncHGT: 
-            background_gene_list_size = len(csv2dict(f'../data/kegg/{input_type}-to-reaction.map', sep = '\t')) #should adjust this when filtering is applied
+            background_gene_list_size = len(csv2dict(os.path.join(dpath,f'kegg/{input_type}-to-reaction.map'), sep = '\t')) #should adjust this when filtering is applied
         gene_list_size = len(uni_list) #should be named backend_list. number of reactions
         counts = count_genes(uni_list, Dict) #number of reactions per pathway
         counts = remove_non_pathways_kegg(counts, enrich_against)
@@ -192,7 +199,7 @@ def remove_non_pathways_kegg(counts, enrich_against):
     return counts
 
 
-def enrich(filename, input_type, method = 'set', return_all = False, FDR=.05,fpath= '../test_data', display_gene_symbol = True, display_input = False, 
+def enrich(filename, input_type, method = 'set', return_all = False, FDR=.05,fpath= '', display_gene_symbol = True, display_input = False, 
                    kegg = False, enrich_against = 'module', custom = {}):
     """ wrapper to perform enrichment given a filename, gene ID type, enrichment method, and false discovery rate.
     other parameters:
@@ -206,13 +213,15 @@ def enrich(filename, input_type, method = 'set', return_all = False, FDR=.05,fpa
         return_all = True is not just for debugging. User may want to know which of their input genes were filtered out as well as how
         the IDs were mapped, as uniprot IDs can sometimes map to more than one HGNC gene symbol
     display_gene_symbol: if true, display HGNC symbols on output regardless of input ID type"""
+    
     backend_type = 'reaction'
     if (backend_type != 'reaction' or enrich_against != 'module') and kegg == False: #planning to allow other backend types in future. 
         raise ValueError("backend_type, enrich_against argument(s) should only be used with kegg")
-
+    
+    dpath = get_data_directory()
     #set method files
-    gcs = '../data/gocam_sizes_mouse.csv'
-    id2g = '../data/ID2gocam_mouse.csv'
+    gcs = os.path.join(dpath,'gocam_sizes_mouse.csv')
+    id2g = os.path.join(dpath,'ID2gocam_mouse.csv')
     sep = ','
     #standard method files
     if method == 'standard':
@@ -223,7 +232,7 @@ def enrich(filename, input_type, method = 'set', return_all = False, FDR=.05,fpa
         #gcs = '../data/kegg/pathway_sizes_kegg.csv'
         print('kegg functionality: map kegg orthologs or ECs to reactions and enrich reactions against pathways or modules. Reactions are treated as "sets." Custom addition or removal of entities not implemented yet. Weighted enrichment against pathways is slow due to large sizes; enrich_against for this is set to "module" as default. Certain non-meaningful pathways such as k01100 "Metabolic Pathways" are removed from enrichment.')
         sep = '\t'
-        id2g = f'../data/kegg/{backend_type}-to-{enrich_against}.map'
+        id2g = os.path.join(dpath,f'kegg/{backend_type}-to-{enrich_against}.map')
         if method == 'standard':
             raise ValueError('standard mapping not implemented yet for kegg. use set or ncHGT')
         

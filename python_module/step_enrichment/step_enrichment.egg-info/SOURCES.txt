@@ -1,3 +1,4 @@
+MANIFEST.in
 README.md
 setup.py
 step_enrichment/__init__.py
@@ -9,3 +10,22 @@ step_enrichment.egg-info/SOURCES.txt
 step_enrichment.egg-info/dependency_links.txt
 step_enrichment.egg-info/requires.txt
 step_enrichment.egg-info/top_level.txt
+step_enrichment/data/.DS_Store
+step_enrichment/data/ID2gocam_mouse.csv
+step_enrichment/data/ID2gocam_mouse_ff.csv
+step_enrichment/data/__init__.py
+step_enrichment/data/data_final_mouse.csv
+step_enrichment/data/data_final_mouse_ff.csv
+step_enrichment/data/gocam2ID_mouse.csv
+step_enrichment/data/gocam_sizes_mouse.csv
+step_enrichment/data/gocam_sizes_mouse_ff.csv
+step_enrichment/data/gocams2genes_20220728.txt
+step_enrichment/data/identifiers.csv
+step_enrichment/data/members2setID.csv
+step_enrichment/data/metabolic_gocams2genes_20220728.txt
+step_enrichment/data/modelID2title_mouse.csv
+step_enrichment/data/setID2members.csv
+step_enrichment/data/simplemine_results.txt
+step_enrichment/data/uIDs.csv
+step_enrichment/data/uIDs_f.csv
+step_enrichment/data/unmapped_rIDs.csv

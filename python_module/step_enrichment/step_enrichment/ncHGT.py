@@ -1,6 +1,6 @@
 import numpy as np
 import os
-from .utils import kegg_make_pathway_reaction, csv2dict, check_r_version
+from .utils import kegg_make_pathway_reaction, csv2dict, check_r_version, get_data_directory
 
 ##### CHECKS + IMPORTS/INSTALLATION FOR BIASED URN AND RPY2#####
 
@@ -132,16 +132,18 @@ def enumerate_possibilities(m_new,i,prev_array):
 
 
 def do_ncHGT(k,gc,M,N, input_type = '', kegg = False, backend_type = '', enrich_against = None):
-    setID2members = '../data/setID2members.csv'
-    gocam2ID = '../data/gocam2ID_mouse.csv'
-    ID2gocam = '../data/ID2gocam_mouse.csv'
+    dpath = get_data_directory()
+
+    setID2members = os.path.join(dpath, 'setID2members.csv')
+    gocam2ID = os.path.join(dpath, 'gocam2ID_mouse.csv')
+    ID2gocam = os.path.join(dpath, 'ID2gocam_mouse.csv')
     sep = ','
-    if kegg:
-        setID2members = f'../data/kegg/reaction-to-{input_type}.map'
-        gocam2ID = f'../data/kegg/{enrich_against}-to-reaction.map'
-        ID2gocam = f'../data/kegg/reaction-to-{enrich_against}.map'
+    if kegg: 
+        setID2members = os.path.join(dpath, f'kegg/reaction-to-{input_type}.map')
+        gocam2ID = os.path.join(dpath, f'kegg/{enrich_against}-to-reaction.map')
+        ID2gocam = os.path.join(dpath, f'kegg/reaction-to-{enrich_against}.map')
         sep = '\t'
-        if os.path.isfile(f'../data/kegg/{enrich_against}-to-{backend_type}.map') == False:
+        if os.path.isfile(os.path.join(dpath, f'kegg/{enrich_against}-to-{backend_type}.map')) == False:
             kegg_make_pathway_reaction(backend_type, enrich_against)
              
     setID2members = csv2dict(setID2members, sep = sep)

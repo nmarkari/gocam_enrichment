@@ -6,7 +6,12 @@ from re import search
 import csv
 import os.path
 import subprocess
+import importlib.resources as resources
 
+def get_data_directory():
+    # Get the path to the data directory within the package
+    with resources.path('step_enrichment', 'data') as data_dir_path:
+        return str(data_dir_path)
 
 def csv2dict(file, sep = ','):
     d={}
@@ -70,8 +75,10 @@ def split_mouse_symbol(x):
     
 def convert_IDs(genes, input_type, backend_type = 'reaction', enrich_against = None):
     """converts input type to uniprot IDs for gocams"""
+    
+    dpath = get_data_directory()
     if input_type == 'ko' or input_type == 'enzyme': #kegg
-        file = f'../data/kegg/{input_type}-to-{backend_type}.map'
+        file = os.path.join(dpath, f'kegg/{input_type}-to-{backend_type}.map')
         if input_type == 'enzyme' and os.path.isfile(file) == False:
             kegg_make_EC_reaction()
         d = csv2dict(file, sep = '\t')
@@ -84,7 +91,7 @@ def convert_IDs(genes, input_type, backend_type = 'reaction', enrich_against = N
         temp.drop_duplicates(subset=backend_type,inplace = True)
         
         #remove reactions that are not annotated to a pathway
-        d2 = csv2dict(f'../data/kegg/{backend_type}-to-{enrich_against}.map', sep = '\t')
+        d2 = os.path.join(dpath, f'/kegg/{backend_type}-to-{enrich_against}.map', sep = '\t')
         mask = temp[backend_type].apply(lambda x: True if d2.get(x) != None else False)
         temp = temp[mask]
         
@@ -94,7 +101,7 @@ def convert_IDs(genes, input_type, backend_type = 'reaction', enrich_against = N
     else:
         genes.g = genes.g.str.upper()
 
-        file = '../data/simplemine_results.txt' #default is human, mouse is an option, other species not supported
+        file = os.path.join(dpath, f'simplemine_results.txt') #default is human, mouse is an option, other species not supported
         table = pd.read_csv(file,sep='\t', header=3)
 
         table['MGI'] = table['Mouse Ortholog'].apply(lambda x: split_mouse_MGI(x))
@@ -122,10 +129,13 @@ def u2ghelper(x,d):
     return x_new
 
 def backend2gene(series, kegg = False):
+    dpath = get_data_directory()
+
     if kegg:
         print('not implemented yet')
     else:
-        file = '../data/simplemine_results.txt' #default is human, mouse is an option, other species not supported
+
+        file = os.path.join(dpath, 'simplemine_results.txt') #default is human, mouse is an option, other species not supported
         table = pd.read_csv(file,sep='\t', header=3)
         table['UniProtKB ID'] = table['UniProtKB ID'].apply(lambda x: x.split(' | '))
         table = table.explode('UniProtKB ID')
@@ -146,7 +156,9 @@ def reverse_dict(original_dict):
 
 def kegg_make_EC_reaction():
     # Read the input file
-    with open('../data/kegg/reaction_enzyme.txt', 'r') as file:
+    dpath = get_data_directory()
+
+    with open(os.path.join(dpath, 'kegg/reaction_enzyme.txt'), 'r') as file:
         lines = file.readlines()
 
     # Process the lines to create the desired output format
@@ -158,22 +170,23 @@ def kegg_make_EC_reaction():
         output_lines.append(output_line)
 
     # Write the output to a TSV file
-    with open('../data/kegg/reaction-to-enzyme.map', 'w') as file:
+    with open(os.path.join(dpath, 'kegg/reaction-to-enzyme.map'), 'w') as file:
         for output_line in output_lines:
             file.write(output_line + '\n')
 
     print("reaction-to-enzyme.map created from reaction_enzyme.txt")
     
-    re_ec = csv2dict('../data/kegg/reaction-to-enzyme.map', sep = '\t')
+    re_ec = csv2dict(os.path.join(dpath, 'kegg/reaction-to-enzyme.map'), sep = '\t')
     ec_re = reverse_dict(re_ec)
-    dict2csv(ec_re, '../data/kegg/enzyme-to-reaction.map', sep = '\t')
+    dict2csv(ec_re, os.path.join(dpath, 'kegg/enzyme-to-reaction.map'), sep = '\t')
     print("enzyme-to-reaction.map created")
     
 def kegg_make_pathway_reaction(backend_type, enrich_against):
-    
-    be_pa = csv2dict(f'../data/kegg/{backend_type}-to-{enrich_against}.map', sep = '\t')
+    dpath = get_data_directory()
+
+    be_pa = csv2dict(os.path.join(dpath, f'kegg/{backend_type}-to-{enrich_against}.map'), sep = '\t')
     pa_be = reverse_dict(be_pa)
-    dict2csv(pa_be, f'../data/kegg/{enrich_against}-to-{backend_type}.map', sep = '\t')
+    dict2csv(pa_be, os.path.join(dpath, f'kegg/{enrich_against}-to-{backend_type}.map'), sep = '\t')
     print(f"{enrich_against}-to-{backend_type}.map created")
 
 def check_r_version():

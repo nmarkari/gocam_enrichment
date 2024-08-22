@@ -25,6 +25,10 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/nmarkari/gocam_enrichment',
     packages=find_packages(),
+    include_package_data=True,
+    package_data={
+        'step_enrichment': ['data/*.dat'],
+    },
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
