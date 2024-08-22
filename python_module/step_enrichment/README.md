@@ -18,7 +18,7 @@ Post-publication, we extended our code to work with KEGG data to aid other devel
 
 Usage:
 
-enrich(filename, input_type, method = 'set', return_all = False, FDR=.05,fpath= '', display_gene_symbol = True, display_input = False, 
+-     enrich(filename, input_type, method = 'set', return_all = False, FDR=.05,fpath= '', display_gene_symbol = True, display_input = False, 
                    kegg = False, enrich_against = 'module'):
 
 -     method: set (unweighted enrichment on sets as described in our paper), ncHGT (weighted enrichment as described in our paper), or standard
