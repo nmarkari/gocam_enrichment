@@ -16,10 +16,10 @@ Post-publication, we extended our code to work with KEGG data to aid other devel
 - reaction-to-pathway.map
 - reaction_enzyme.txt
 
-Usage:\
+Usage:
 
 enrich(filename, input_type, method = 'set', return_all = False, FDR=.05,fpath= '', display_gene_symbol = True, display_input = False, 
-                   kegg = False, enrich_against = 'module'):\
+                   kegg = False, enrich_against = 'module'):
 
 -     method: set (unweighted enrichment on sets as described in our paper), ncHGT (weighted enrichment as described in our paper), or standard
 -     valid gene IDs for GOCAMs/Reactome: 'Gene Symbol', 'ENSEMBL ID', 'uniprot'
@@ -27,7 +27,7 @@ enrich(filename, input_type, method = 'set', return_all = False, FDR=.05,fpath= 
 - -       if enriching with kegg, set kegg = True.
 - -       enrich against can be 'module' or 'pathways' for kegg
 -     return_all: 
-- -         if false, only returns the dataframe displaying results. \
+- -         if false, only returns the dataframe displaying results. 
 - -         if true: returns (gene_list, filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display)
 - -         return_all = True is not just for debugging. User may want to know which of their input genes were filtered out as well as how
 - -         the IDs were mapped, as uniprot IDs can sometimes map to more than one HGNC gene symbol
