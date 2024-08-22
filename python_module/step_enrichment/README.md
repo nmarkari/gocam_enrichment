@@ -19,17 +19,17 @@ Post-publication, we extended our code to work with KEGG data to aid other devel
 Usage:\
 enrich(filename, input_type, method = 'set', return_all = False, FDR=.05,fpath= '', display_gene_symbol = True, display_input = False, 
                    kegg = False, enrich_against = 'module'):\
-&nbsp;&nbsp;&nbsp;&nbsp;     """ wrapper to perform enrichment given a filename, gene ID type, enrichment method, and false discovery rate.\
-&nbsp;&nbsp;&nbsp;&nbsp;     method: set (unweighted enrichment on sets as described in our paper), ncHGT (weighted enrichment as described in our paper), or standard\
-&nbsp;&nbsp;&nbsp;&nbsp;     valid gene IDs for GOCAMs/Reactome: 'Gene Symbol', 'ENSEMBL ID', 'uniprot'\
-&nbsp;&nbsp;&nbsp;&nbsp;     valid gene IDs for kegg: 'ko', 'enzyme' (EC number)\
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;       if enriching with kegg, set kegg = True.\
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;       enrich against can be 'module' or 'pathways' for kegg\
-&nbsp;&nbsp;&nbsp;&nbsp;     return_all: \
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;         if false, only returns the dataframe displaying results. \
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;         if true: returns (gene_list, filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display)\
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;         return_all = True is not just for debugging. User may want to know which of their input genes were filtered out as well as how\
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;         the IDs were mapped, as uniprot IDs can sometimes map to more than one HGNC gene symbol\
-&nbsp;&nbsp;&nbsp;&nbsp;     FDR: false discovery rate (Benjamini Hochberg correction)\
-&nbsp;&nbsp;&nbsp;&nbsp;     display_gene_symbol: if true, display HGNC symbols on output regardless of input ID type\
-&nbsp;&nbsp;&nbsp;&nbsp;     display_input: overrides display_gene_symbol if true. If False, either displays the backend id type (UniProtKB IDs for REACTOME/GOCAMs, reactions for KEGG) or the default of HGNC gene names"""\
+\
+-     method: set (unweighted enrichment on sets as described in our paper), ncHGT (weighted enrichment as described in our paper), or standard\
+-     valid gene IDs for GOCAMs/Reactome: 'Gene Symbol', 'ENSEMBL ID', 'uniprot'\
+-     valid gene IDs for kegg: 'ko', 'enzyme' (EC number)\
+- -       if enriching with kegg, set kegg = True.\
+- -       enrich against can be 'module' or 'pathways' for kegg\
+-     return_all: \
+- -         if false, only returns the dataframe displaying results. \
+- -         if true: returns (gene_list, filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display)\
+- -         return_all = True is not just for debugging. User may want to know which of their input genes were filtered out as well as how\
+- -         the IDs were mapped, as uniprot IDs can sometimes map to more than one HGNC gene symbol\
+-     FDR: false discovery rate (Benjamini Hochberg correction)\
+-     display_gene_symbol: if true, display HGNC symbols on output regardless of input ID type\
+-     display_input: overrides display_gene_symbol if true. If False, either displays the backend id type (UniProtKB IDs for REACTOME/GOCAMs, reactions for KEGG) or the default of HGNC gene names"""\
