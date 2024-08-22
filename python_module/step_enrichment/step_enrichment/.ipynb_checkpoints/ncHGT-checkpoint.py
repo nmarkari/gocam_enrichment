@@ -5,7 +5,7 @@ from .utils import kegg_make_pathway_reaction, csv2dict, check_r_version
 ##### CHECKS + IMPORTS/INSTALLATION FOR BIASED URN AND RPY2#####
 
     
-check_r_version()
+#check_r_version() #seems to cause error in Windows
 
 import rpy2
 import rpy2.robjects.packages as rpackages

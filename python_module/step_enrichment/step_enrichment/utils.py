@@ -186,7 +186,7 @@ def check_r_version():
             # Extract the version from the output
             version_line = result.stdout.splitlines()[0]
             if int(version_line.split(' ')[2][0]) < 4:
-                print(f'R >=4.0 recommended at rpy2 documentation. Your version = {version_line.split(' ')[2]}')
+                print(f"R >=4.0 recommended at rpy2 documentation. Your version = {version_line.split(' ')[2]}")
         else:
             print("R is not installed or not found in the PATH. Please install R >= 4.0")
             return None
