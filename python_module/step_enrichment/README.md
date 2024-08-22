@@ -29,8 +29,7 @@ enrich(filename, input_type, method = 'set', return_all = False, FDR=.05,fpath= 
 -     return_all: 
 - -         if false, only returns the dataframe displaying results. 
 - -         if true: returns (gene_list, filtered_out_genes, filtered_list, setID2members_input_uni, setID2members_input, df_display)
-- -         return_all = True is not just for debugging. User may want to know which of their input genes were filtered out as well as how
-- -         the IDs were mapped, as uniprot IDs can sometimes map to more than one HGNC gene symbol
+- -         return_all = if True, returns gene_list (genes + sets added), filtered_out_genes (from input), filtered_list (input data type), setID2members_input_uni (maps sets to backend data type), setID2members_input (maps sets to input data type), df_display
 -     FDR: false discovery rate (Benjamini Hochberg correction)
 -     display_gene_symbol: if true, display HGNC symbols on output regardless of input ID type
 -     display_input: overrides display_gene_symbol if true. If False, either displays the backend id type (UniProtKB IDs for REACTOME/GOCAMs, reactions for KEGG) or the default of HGNC gene names"""\
